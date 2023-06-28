@@ -1,0 +1,15 @@
+{
+    "name": "wxlmaidou/device",
+    "description": "swoole对接门禁设备tcp连接",
+    "autoload": {
+        "psr-4": {
+            "Wxlmaidou\\Device\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "wxl"
+        }
+    ],
+    "require": {}
+}
