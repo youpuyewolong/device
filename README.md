@@ -1,10 +1,17 @@
 #device
+
+
 使用方法
-1.tp6生成一个新的命令行类
 
-2.在新生成的类中使用扩展中的trait
+1.composer require wxlmaidou/device
 
-3.每当有事件触发但没有相关处理函数时 会触发trait的__call方法 如果该事件需要处理 则在新生成的命令行类中添加以该事件名 命名的方法
+//https://packagist.org/packages/wxlmaidou/device
+
+2.tp6生成一个新的命令行类
+
+3.在新生成的类中使用扩展中的trait
+
+4.每当有事件触发但没有相关处理函数时 会触发trait的__call方法 如果该事件需要处理 则在新生成的命令行类中添加以该事件名 命名的方法
 
 示例如下
 
