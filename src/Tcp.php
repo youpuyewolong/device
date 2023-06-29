@@ -1,24 +1,25 @@
-<?
+<?php
 
-namespace Wxlmaidou\device;
+namespace Wxlmaidou\Device;
 
-class Tcp
+trait Tcp
 {
     public $server;
     public $fd;
+    public $port = 8085;
     public function do()
 
 
     {
 
-        $server = new Swoole\Server('0.0.0.0', 8085);
+        $server = new \Swoole\Server('0.0.0.0', $this->port);
+        $this->server = $server;
         $server->on('Connect', function ($server, $fd) {
             echo "Client: Connect.\n";
         });
 
         $server->on('Receive', function ($server, $fd, $reactor_id, $data) {
 
-            $this->fd = $fd;
             $start_position = strpos($data, "<");
             $end_position = strrpos($data, ">");
             $real_str = substr($data,$start_position,($end_position - $start_position + 1));
@@ -27,7 +28,7 @@ class Tcp
             $rootNode = $xmlObject->getName();
             $json = json_encode($xmlObject);
             $res = json_decode($json,true);
-            $this->$rootNode($res);
+            $this->$rootNode($res,$fd);
 
         });
 
@@ -36,7 +37,7 @@ class Tcp
         });
 
         $server->start();
-        $this->server = $server;
+
 
     }
 
@@ -46,7 +47,7 @@ class Tcp
         var_dump($parameters);
     }
 
-    public function TIME_SYSNC_REQ($res){
+    public function TIME_SYSNC_REQ($res,$fd){
 
         $time = date("YmdHis");
         $sendxmlData =
@@ -58,6 +59,6 @@ class Tcp
             <dataStartTime>0001</dataStartTime>
             <dataEndTime>2359</dataEndTime>
             </TIME_SYSNC_RES>';
-        $this->server->send($this->fd, $sendxmlData);
+        $this->server->send($fd, $sendxmlData);
     }
 }
